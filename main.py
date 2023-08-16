@@ -29,3 +29,25 @@ class PlayerExample(BoxLayout):
         self.music_file = easygui.fileopenbox(filetypes=["*.mp3"])
         if self.sound != None:
             self.stop_music()
+            self.seconds = 0
+            self.time.text = "00:00"
+        if self.music_file == None:
+            self.filename.text = "No loaded song"
+            self.all_time.text = "00:00"
+            if self.timer != None:
+                self.timer.cansel()
+            self.play.disabled = True
+            return
+
+        self.sound = SoundLoader.load(self.music_file)
+        audio = MP3(self.music_file)
+        m, s = divmod(audio.info.length + 1, 60)
+        t = "%02d:%02d" % (m, s)
+        self.all_time.text = t
+        self.slider.max = int(audio.info.length)
+        self.slider.value = 0
+        self.sound.seek(0)
+        self.sound.stop()
+        self.play.disabled = False
+        self.timer = Timer(1,self.position)
+        self.filename.text = self.sound.source
