@@ -51,3 +51,20 @@ class PlayerExample(BoxLayout):
         self.play.disabled = False
         self.timer = Timer(1,self.position)
         self.filename.text = self.sound.source
+
+    def play_music(self):
+        self.play.disabled = True
+        self.pause.disabled = False
+        self.stop.disabled = False
+        self.sound.play()
+        self.timer.start()
+
+    def pause_music(self):
+        self.timer.cancel()
+        pos = self.sound.get_pos()
+        self.sound.stop()
+        self.slider.value = pos
+        self.play.disabled = False
+        self.pause.disabled = True
+        self.timer = Timer(1, self.position)
+
