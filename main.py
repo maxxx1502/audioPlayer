@@ -60,8 +60,9 @@ class PlayerExample(BoxLayout):
         self.timer.start()
         self.sound = SoundLoader.load(self.music_file)
         audio = MP3(self.music_file)
-        l = audio.info.length
-        while l > 0:
+        self.slider.max = int(audio.info.length)
+        self.slider.value = 0
+        while self.slider.max > self.slider.value:
             self.sound.play()
         # # m, s = divmod(audio.info.length + 1, 60)
         # # t = "%02d:%02d" % (m, s)
